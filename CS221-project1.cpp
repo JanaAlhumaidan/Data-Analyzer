@@ -12,16 +12,15 @@ int colCount = 0;
 string data[rows][cols];
 
 int readingData();
-int print();
-
+int display();
 
 int main(){
     if (readingData() == 1) {
         return 1; // If readingData fails, exit the program
     }
-    print();
+    display();
     cout << rowCount << " " << colCount; // test
-    return 0;
+    return 0; 
 }
 
 int readingData() {
@@ -41,7 +40,7 @@ int readingData() {
                 data[rowCount][colCount++] = cellValue; // Store the cell value in the array
                 cellValue = ""; // Reset the cell value for the next cell
             } else {
-                cellValue += c; // Append the character to the cell value
+                cellValue += c;
             }
         }
         data[rowCount][colCount++] = cellValue; // Store the last cell value in the array
@@ -50,7 +49,7 @@ int readingData() {
     return 0;
 }
 
-int print(){
+int display(){
     for (int i = 0; i < rowCount; ++i) {
         for (int j = 0; j < cols && !data[i][j].empty(); ++j) {
             cout << data[i][j] << " ";
