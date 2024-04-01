@@ -15,6 +15,7 @@ bool emptyArray();
 void display(int &displayCount); 
 int menu();
 void report(int displayCount); 
+int search(int ID);
 
 struct info {
     string name;
@@ -53,9 +54,15 @@ int main(){
                     break;}
 
             case 5: // Find a gamer by ID
+                int ID, rownum;
                 if (!emptyArray())
-                    //....
+                    cout << "enter the ID";
+                    cin >> ID;
+                    rownum = search(ID);
+                    for(int j=0; j< colCount; j++){
+                     cout<<data[rownum][j];}
                 break;
+
                         
             case 6: //Sort gamers by their ID
                 if (!emptyArray())
@@ -134,4 +141,18 @@ bool emptyArray(){
 
 void report(int displayCount){
     cout << "number of displays: " << displayCount;
+}
+
+int search(int ID){
+    int index = -1;
+    for(int i = 0; i < rowCount; ++i){
+        if (stoi(data[i][0]) == ID){
+            index = i;
+            return i;
+            break;
+        }
+    }
+    if(index < 0)
+        cout << "ID not found";
+    return index;
 }
