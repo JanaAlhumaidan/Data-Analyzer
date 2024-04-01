@@ -12,15 +12,77 @@ int colCount = 0;
 string data[rows][cols];
 
 int readingData();
-int display();
+bool emptyArray();
+void display();
+int menu();
+
+struct info {
+	string name;
+	string game;
+	int id;
+	int score;
+};
 
 int main(){
     if (readingData() == 1) {
-        return 1; // If readingData fails, exit the program
+        return 1; 
     }
-    display();
-    cout << rowCount << " " << colCount; // test
+    do{
+        switch (menu()){
+            case 1: //Add new gamer
+                if (rowCount < rows)
+                    //..... 
+                //else 
+                    cout<<"\nERROR: The array is full. Please delete employee first!";
+                break;
+        
+            case 2: //delete a gamer
+                if (!emptyArray())
+                    /// ......
+                break;
+                    
+            case 3: //Update score
+                if (!emptyArray()) 
+                    ///// .... 
+                    break;
+                    
+            case 4: //print all gamers	
+                if (!emptyArray())
+                    display(); 
+                    break;
+
+            case 5: //Find a gamer by ID
+                if (!emptyArray())
+                    //....
+                break;
+                        
+            case 6: //Sort gamers by their ID
+                if (!emptyArray())
+                    //....
+                break;
+                        
+            case 7: cout<<"\t\n Thank you for using our program\n";
+                return 0; 
+                        
+            default: cout<<"\n Incorrect menu option. Please try another option.";
+        } 
+    }while (menu() != 7);
     return 0; 
+}
+
+int menu(){
+	int choice;
+	cout<<"\n Please choose an option:"
+		<<"\n1  - Add a gamer"
+  		<<"\n2  - Delete a gamer"
+  		<<"\n3  - Update score"
+  		<<"\n4  - Display all gamers"
+  		<<"\n5  - Find a gamer by ID"
+  		<<"\n6  - Sort gamers by their ID"
+  		<<"\n7  - Exit "
+		<<"\n>> ";    
+	cin>>choice;
+	return choice;
 }
 
 int readingData() {
@@ -49,12 +111,20 @@ int readingData() {
     return 0;
 }
 
-int display(){
+void display(){
     for (int i = 0; i < rowCount; ++i) {
         for (int j = 0; j < cols && !data[i][j].empty(); ++j) {
             cout << data[i][j] << " ";
         }
         cout << endl;
     }
-    return 0; // Indicate success
+}
+
+bool emptyArray(){
+	if (rowCount==0)
+	{
+		cout<<"\n The array is empty!\n";
+		return true;
+	}
+	return false;
 }
