@@ -9,12 +9,14 @@ const int rows = 50;
 const int cols = 50;
 int rowCount = 0;
 int colCount = 0;
+int displayCount = 0;
 string data[rows][cols];
 
 int readingData();
 bool emptyArray();
 void display();
 int menu();
+void report();
 
 struct info {
 	string name;
@@ -47,11 +49,11 @@ int main(){
                     break;
                     
             case 4: //print all gamers	
-                if (!emptyArray())
+                if (!emptyArray()){
                     display(); 
-                    break;
+                    break;}
 
-            case 5: //Find a gamer by ID
+            case 5: // Find a gamer by ID
                 if (!emptyArray())
                     //....
                 break;
@@ -61,12 +63,14 @@ int main(){
                     //....
                 break;
                         
-            case 7: cout<<"\t\n Thank you for using our program\n";
+            case 7: 
+                report();
+                cout<<"\t\n Thank you for using our program\n";
                 return 0; 
                         
             default: cout<<"\n Incorrect menu option. Please try another option.";
         } 
-    }while (menu() != 7);
+    }while (true);
     return 0; 
 }
 
@@ -75,7 +79,7 @@ int menu(){
 	cout<<"\n Please choose an option:"
 		<<"\n1  - Add a gamer"
   		<<"\n2  - Delete a gamer"
-  		<<"\n3  - Update score"
+  		<<"\n3  - Update the score"
   		<<"\n4  - Display all gamers"
   		<<"\n5  - Find a gamer by ID"
   		<<"\n6  - Sort gamers by their ID"
@@ -117,9 +121,10 @@ void display(){
             cout << data[i][j] << " ";
         }
         cout << endl;
+        displayCount ++;
     }
+    
 }
-
 bool emptyArray(){
 	if (rowCount==0)
 	{
@@ -127,4 +132,8 @@ bool emptyArray(){
 		return true;
 	}
 	return false;
+}
+
+void report(){
+    cout << "number of displays: " << displayCount;
 }
