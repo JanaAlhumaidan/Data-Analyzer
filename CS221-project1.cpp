@@ -1,4 +1,3 @@
-// Jana Alhumaidan - Bayan Alghamdi - Ghala Alqhahtani - Sadeem Alturki - Baneen - Shahad
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,23 +8,23 @@ const int rows = 50;
 const int cols = 50;
 int rowCount = 0;
 int colCount = 0;
-int displayCount = 0;
 string data[rows][cols];
 
 int readingData();
 bool emptyArray();
-void display();
+void display(int &displayCount); 
 int menu();
-void report();
+void report(int displayCount); 
 
 struct info {
-	string name;
-	string game;
-	int id;
-	int score;
+    string name;
+    string game;
+    int id;
+    int score;
 };
 
 int main(){
+    int displayCount = 0;
     if (readingData() == 1) {
         return 1; 
     }
@@ -35,22 +34,22 @@ int main(){
                 if (rowCount < rows)
                     //..... 
                 //else 
-                    cout<<"\nERROR: The array is full. Please delete employee first!";
+                    cout<<"\nERROR: The array is full. Please delete a gamer first!";
                 break;
         
             case 2: //delete a gamer
                 if (!emptyArray())
-                    /// ......
+                    //......
                 break;
                     
             case 3: //Update score
                 if (!emptyArray()) 
-                    ///// .... 
+                    //.... 
                     break;
                     
-            case 4: //print all gamers	
+            case 4: //print all gamers    
                 if (!emptyArray()){
-                    display(); 
+                    display(displayCount); 
                     break;}
 
             case 5: // Find a gamer by ID
@@ -64,8 +63,8 @@ int main(){
                 break;
                         
             case 7: 
-                report();
                 cout<<"\t\n Thank you for using our program\n";
+                report(displayCount); 
                 return 0; 
                         
             default: cout<<"\n Incorrect menu option. Please try another option.";
@@ -75,18 +74,18 @@ int main(){
 }
 
 int menu(){
-	int choice;
-	cout<<"\n Please choose an option:"
-		<<"\n1  - Add a gamer"
-  		<<"\n2  - Delete a gamer"
-  		<<"\n3  - Update the score"
-  		<<"\n4  - Display all gamers"
-  		<<"\n5  - Find a gamer by ID"
-  		<<"\n6  - Sort gamers by their ID"
-  		<<"\n7  - Exit "
-		<<"\n>> ";    
-	cin>>choice;
-	return choice;
+    int choice;
+    cout<<"\n Please choose an option:"
+        <<"\n1  - Add a gamer"
+        <<"\n2  - Delete a gamer"
+        <<"\n3  - Update the score"
+        <<"\n4  - Display all gamers"
+        <<"\n5  - Find a gamer by ID"
+        <<"\n6  - Sort gamers by their ID"
+        <<"\n7  - Exit "
+        <<"\n>> ";    
+    cin>>choice;
+    return choice;
 }
 
 int readingData() {
@@ -115,25 +114,24 @@ int readingData() {
     return 0;
 }
 
-void display(){
+void display(int &displayCount){
     for (int i = 0; i < rowCount; ++i) {
-        for (int j = 0; j < cols && !data[i][j].empty(); ++j) {
+        for (int j = 0; j < cols && !data[i][j].empty(); ++j){
             cout << data[i][j] << " ";
         }
         cout << endl;
-        displayCount ++;
+        displayCount++ ;
     }
-    
-}
-bool emptyArray(){
-	if (rowCount==0)
-	{
-		cout<<"\n The array is empty!\n";
-		return true;
-	}
-	return false;
 }
 
-void report(){
+bool emptyArray(){
+    if (rowCount==0){
+        cout<<"\n The array is empty!\n";
+        return true;
+    }
+    return false;
+}
+
+void report(int displayCount){
     cout << "number of displays: " << displayCount;
 }
