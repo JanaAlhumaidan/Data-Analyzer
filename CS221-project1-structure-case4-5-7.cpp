@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <sstream> 
 #include <string>
 
 using namespace std;
@@ -10,7 +9,6 @@ const int cols = 4;
 int rowCount = 0;
 
 int displayCount = 0;
-
 
 struct info {
     string id;
@@ -23,12 +21,14 @@ struct info {
 int menu();
 void readDataFromFile(const string& filename);
 void Display();
+int search(const string& chosenId);
 
 int main() {
     readDataFromFile("gameData.txt"); 
     cout << "ID GamerName GameName Score" << endl;
     Display();
-
+    
+    string chosenId;
     do {
         switch (menu()) {
             case 1:
@@ -44,16 +44,23 @@ int main() {
                 Display();
                 break;
             case 5:
-                // Find gamer by ID functionality
+                cout << "Enter the ID:: ";
+                cin >> chosenId;
+                int i = search(chosenId);
+                if (i != -1) {
+                    cout << data[i].id << " " << data[i].name << " " << data[i].game << " " << data[i].score << endl;
+                } else {
+                    cout << "ID not found" << endl;
+                }
                 break;
-            case 6:
+            /*case 6:
                 // Sort gamers by ID functionality  --out
                 break;
             case 7:
-                cout << "Exiting program...";      // --out
+                cout << "Exiting program..." << endl;      // --out
                 return 0;
             default:
-                cout << "\n Incorrect menu option. Please try another option.";
+                cout << "\n Incorrect menu option. Please try another option." << endl;*/
         }
     } while (true);
     return 0;
@@ -80,13 +87,7 @@ void readDataFromFile(const string& filename) {
         cout << "Error opening file: " << filename << endl;
         return;
     }
-    string line;
-    while (!inFile.eof()) {
-        if (rowCount >= rowMax) {
-            cout << "Maximum row limit reached. Cannot read more data." << endl;
-            break;
-        }
-        // txt format is: ID,Name,Game,Score
+    while (!inFile.eof() && rowCount < rowMax) {
         getline(inFile, data[rowCount].id);
         getline(inFile, data[rowCount].name);
         getline(inFile, data[rowCount].game);
@@ -105,5 +106,14 @@ void Display() {
     for (int i = 0; i < rowCount; ++i) {
         cout << data[i].id << " " << data[i].name << " " << data[i].game << " " << data[i].score << endl;
     }
-    displayCount ++;
+    displayCount++;
+}
+
+int search(const string& chosenId) {
+    for (int i = 0; i < rowCount; i++) {
+        if (data[i].id == chosenId) {
+            return i; // Return the index of the found gamer
+        }
+    }
+    return -1; // ID not found
 }
