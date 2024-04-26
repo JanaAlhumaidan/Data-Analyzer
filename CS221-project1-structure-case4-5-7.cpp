@@ -9,8 +9,7 @@ const int cols = 4;
 int rowCount = 0;
 
 int displayCount = 0;
-int searchCount =0;
-
+int searchCount= 0;
 struct info {
     string id;
     string name;
@@ -45,11 +44,11 @@ int main() {
                 Display();
                 break;
             case 5:
-                cout << "Enter the ID:: ";
+                cout << "Enter the ID: ";
                 cin >> chosenId;
                 int i = search(chosenId);
                 if (i != -1) {
-                    cout << data[i].id << " " << data[i].name << " " << data[i].game << " " << data[i].score << endl;
+                    cout << endl << data[i].id << " " << data[i].name << " " << data[i].game << " " << data[i].score << endl;
                 } else {
                     cout << "ID not found" << endl;
                 }
@@ -82,7 +81,7 @@ int menu() {
     return choice;
 }
 
-void readDataFromFile(const string filename) {
+void readDataFromFile(const string& filename) {
     ifstream inFile(filename);
     if (!inFile.is_open()) {
         cout << "Error opening file: " << filename << endl;
@@ -114,7 +113,6 @@ int search(const string& chosenId) {
     for (int i = 0; i < rowCount; i++) {
         if (data[i].id == chosenId) {
             return i; // Return the index of the found gamer
-            searchCount++;
         }
     }
     return -1; // ID not found
