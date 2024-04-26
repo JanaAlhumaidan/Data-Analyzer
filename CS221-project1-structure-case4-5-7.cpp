@@ -9,6 +9,7 @@ const int cols = 4;
 int rowCount = 0;
 
 int displayCount = 0;
+int searchCount =0;
 
 struct info {
     string id;
@@ -81,7 +82,7 @@ int menu() {
     return choice;
 }
 
-void readDataFromFile(const string& filename) {
+void readDataFromFile(const string filename) {
     ifstream inFile(filename);
     if (!inFile.is_open()) {
         cout << "Error opening file: " << filename << endl;
@@ -113,6 +114,7 @@ int search(const string& chosenId) {
     for (int i = 0; i < rowCount; i++) {
         if (data[i].id == chosenId) {
             return i; // Return the index of the found gamer
+            searchCount++;
         }
     }
     return -1; // ID not found
