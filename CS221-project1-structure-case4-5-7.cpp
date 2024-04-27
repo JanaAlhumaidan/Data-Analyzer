@@ -163,23 +163,22 @@ void Delete() {
 
     if (!tempFile.is_open()) {
         cout << "Error creating temporary file." << endl;
-    }
-
-    for ( i = 0; i < rowCount; ++i) {
-        if (i != foundIndex) {
-            tempFile 
-                << data[i].id << endl 
-                << data[i].name << endl 
-                << data[i].game << endl 
-                << data[i].score << endl;
+    }else {
+        for ( i = 0; i < rowCount; ++i) {
+            if (i != foundIndex) {
+                tempFile 
+                    << data[i].id << endl 
+                    << data[i].name << endl 
+                    << data[i].game << endl 
+                    << data[i].score << endl;
+            }
         }
-    }
-    tempFile.close();
-    remove("gameData.txt");
-    rename("tempGameData.txt", "gameData.txt");
-    rowCount--;
-    cout << "Gamer deleted successfully!" << endl;
-    DeleteCount ++;
+        tempFile.close();
+        remove("gameData.txt");
+        rename("tempGameData.txt", "gameData.txt");
+        rowCount --; //// 4 not 1
+        cout << "Gamer deleted successfully!" << endl;
+        DeleteCount ++;}
 }
 
 void Display() {
