@@ -14,6 +14,8 @@ int displayCount = 0;
 int searchCount = 0;
 int Addcount = 0;
 int DeleteCount = 0;
+int updateCount = 0;
+int sortCount = 0;
 
 struct info {
     string id;
@@ -75,8 +77,13 @@ int main() {
                 break;
             case 7:
                 saveToFile();
-                cout << displayCount;
-                cout << "Exiting program..." << endl;  
+                cout    << "Times of display: " << displayCount << endl
+                        << "Times of search: " << searchCount << endl
+                        << "Times of add: " << Addcount << endl
+                        << "Times of delete: " << DeleteCount << endl
+                        << "Times of update: " << updateCount << endl
+                        << "Times of sort: " << sortCount << endl
+                        << "Exiting program..." << endl;  
                 return 0;
             default:
                 cout << "\n Incorrect menu option. Please try another option." << endl;
@@ -102,6 +109,12 @@ int menu() {
 }
 
 void readDataFromFile(const string& filename) {
+    for (i = 0; i < rowCount; ++i) {
+            data[i].id = "";
+            data[i].name  = "";
+            data[i].game = "";
+            data[i].score  = "";
+    }
     rowCount = 0;
     ifstream inFile(filename);
     if (!inFile.is_open()) {
@@ -119,6 +132,7 @@ void readDataFromFile(const string& filename) {
 }
 
 void Add() {
+    Addcount ++;
     string newId, newName, newGame, newScore;
     cout << "Enter new gamer details:" << endl;
     cout << "ID: ";
@@ -144,11 +158,11 @@ void Add() {
         << newScore << endl;
 
     cout << "New gamer added successfully!" << endl;
-    Addcount ++;
     outFile.close();
 }
 
 void Delete() {
+    DeleteCount++;
     string x;
     cout << "Enter the ID of the gamer to delete: ";
     cin >> x;
@@ -157,49 +171,55 @@ void Delete() {
 
     if (foundIndex == -1) {
         cout << "ID not found. No gamer deleted." << endl;
+        return;
     }
 
-    ofstream tempFile("tempGameData.txt");
+    // Shift elements to remove the deleted gamer
+    for (int j = foundIndex; j < rowCount - 1; ++j) {
+        data[j] = data[j + 1];
+    }
+    rowCount--;
 
-    if (!tempFile.is_open()) {
-        cout << "Error creating temporary file." << endl;
-    }else {
-        for ( i = 0; i < rowCount; ++i) {
-            if (i != foundIndex) {
-                tempFile 
-                    << data[i].id << endl 
-                    << data[i].name << endl 
-                    << data[i].game << endl 
-                    << data[i].score << endl;
-            }
-        }
-        tempFile.close();
-        remove("gameData.txt");
-        rename("tempGameData.txt", "gameData.txt");
-        rowCount --; //// 4 not 1
-        cout << "Gamer deleted successfully!" << endl;
-        DeleteCount ++;}
+    // Rewrite data to the file
+    ofstream outFile("gameData.txt");
+    if (!outFile.is_open()) {
+        cout << "Error opening file for writing." << endl;
+        return;
+    }
+
+    // Rewrite data to the file
+    for ( i = 0; i < rowCount; ++i) {
+        outFile
+            << data[i].id << endl
+            << data[i].name << endl
+            << data[i].game << endl
+            << data[i].score << endl;
+    }
+    outFile.close();
+    readDataFromFile("gameData.txt");
+
+    cout << "Gamer deleted successfully!" << endl;
 }
 
 void Display() {
+    displayCount++;
     readDataFromFile("gameData.txt");
     if (rowCount == 0) {
         cout << "No data to display." << endl;
         return;
     }
-
     for ( i = 0; i < rowCount; ++i) {
         cout << data[i].id << " " 
             << data[i].name << " " 
             << data[i].game << " " 
             << data[i].score << endl;
     }
-    displayCount++;
     cout << "--------------";
 
 }
 
 int search(const string& chosenId) {
+    searchCount ++;
     for ( i = 0; i < rowCount; i++) {
         if (data[i].id == chosenId) {
             return i; // Return the index of the found gamer
@@ -209,6 +229,7 @@ int search(const string& chosenId) {
 }
 
 void sortById(){
+    sortCount ++;
     for ( i = 0; i < rowCount - 1; ++i) {
         for (int j = 0; j < rowCount - i - 1; ++j) {
             if (data[j].id > data[j + 1].id){
@@ -240,6 +261,7 @@ void saveToFile() {
 }
 
 void updateScore(string idToUpdate,string newScore) {
+    updateCount ++;
     int index = search(idToUpdate);
     if (index != -1) {
         data[index].score = newScore;
