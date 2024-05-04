@@ -1,20 +1,20 @@
+1001
+Jana
+Call of Duty
+250
+1005
+Ghala
+Fortnite
+47
+1003
+Sadeem
+Minecraft
+185
 1004
 Bayan
 Overwatch
 234
-1001
-Jana
-Call of Duty
-100
-1005
-Sara 
-Fortnite
-47
-1003
-Sadeem 
-Minecraft
-185
 1002
 Baneen
 Call of Duty
-2345
+334

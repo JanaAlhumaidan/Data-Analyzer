@@ -1,7 +1,9 @@
+// Jana Alhumaidan - Bayan Alghamdi - Sadeem Alturki - Ghala Alqahtani - Baneen Albashir - Shahad Alduraywish
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -9,7 +11,6 @@ const int rowMax = 50;
 const int cols = 4;
 int rowCount = 0;
 int i;
-
 int displayCount = 0;
 int searchCount = 0;
 int Addcount = 0;
@@ -34,6 +35,7 @@ int search(const string& chosenId);
 void sortById();
 void saveToFile();
 void updateScore(string idToUpdate, string newScore);
+void report();
 
 int main() {
     readDataFromFile("gameData.txt");
@@ -66,7 +68,10 @@ int main() {
                 cin >> chosenId;
                 i = search(chosenId);
                 if (i != -1) {
-                    cout << data[i].id << " " << data[i].name << " " << data[i].game << " " << data[i].score << endl;
+                    cout << data[i].id 
+                        << " " << data[i].name 
+                        << " " << data[i].game 
+                        << " " << data[i].score << endl;
                 }
                 else {
                     cout << "ID not found" << endl;
@@ -77,13 +82,8 @@ int main() {
                 break;
             case 7:
                 saveToFile();
-                cout    << "Times of display: " << displayCount << endl
-                        << "Times of search: " << searchCount << endl
-                        << "Times of add: " << Addcount << endl
-                        << "Times of delete: " << DeleteCount << endl
-                        << "Times of update: " << updateCount << endl
-                        << "Times of sort: " << sortCount << endl
-                        << "Exiting program..." << endl;  
+                report();
+                cout << "Exiting program..." << endl;  
                 return 0;
             default:
                 cout << "\n Incorrect menu option. Please try another option." << endl;
@@ -152,10 +152,10 @@ void Add() {
         cout << "Error opening file for writing." << endl;
     }
     outFile 
-        << newId << endl 
+        << endl << newId << endl 
         << newName << endl 
         << newGame << endl 
-        << newScore << endl;
+        << newScore;
 
     cout << "New gamer added successfully!" << endl;
     outFile.close();
@@ -265,10 +265,32 @@ void updateScore(string idToUpdate,string newScore) {
     int index = search(idToUpdate);
     if (index != -1) {
         data[index].score = newScore;
-        cout << "Score updated successfully!" << endl;
+        cout << "Score updated successfully!" << endl << endl;
     } else {
         cout << "ID not found. Score not updated." << endl;
     }
         saveToFile();
     Display();
+}
+
+void report()
+{
+	ofstream ReportFile; 	
+	time_t t;	
+	t= time(NULL);
+	char *time=ctime(&t);
+	ReportFile.open("report.txt");
+	if (ReportFile.is_open())
+	{   ReportFile<<endl;
+		ReportFile  << "Times of display: " << displayCount << endl
+                    << "Times of search: " << searchCount << endl
+                    << "Times of add: " << Addcount << endl
+                    << "Times of delete: " << DeleteCount << endl
+                    << "Times of update: " << updateCount << endl
+                    << "Times of sort: " << sortCount << endl
+                    <<"The date of last update: "<<time<< endl;
+	}
+	else
+	cout<< "Failed To Save Last Modifications!\n";
+	ReportFile.close();
 }
